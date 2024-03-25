@@ -6,8 +6,12 @@ This is being built from the bottom up as an exercise in model training and depl
 
 Planning to implement the following:
 
-* A "corrector" that directly fixes input sentences.
-* A "checker" that highlights errors for the user's consideration.
+* An "error correction" tool that directly fixes input sentences.
+* An "error checker" tool that highlights errors for the user's consideration.
+
+Currently, a basic version of the corrector is available:
+
+![Screenshot of the error correction tool](assets/error_correction_ui_screenshot.png?raw=true)
 
 ## Setup
 
