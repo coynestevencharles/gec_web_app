@@ -1,4 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from app.config import Config
 
 tokenizer = AutoTokenizer.from_pretrained("Unbabel/gec-t5_small")
 model = AutoModelForSeq2SeqLM.from_pretrained("Unbabel/gec-t5_small")
@@ -7,7 +8,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained("Unbabel/gec-t5_small")
 def correct_text(input_text: str) -> str:
     tokenized_sentence = tokenizer.encode(
         "gec: " + input_text,
-        max_length=128,
+        max_length=Config.MAX_LENGTH,
         truncation=True,
         padding="max_length",
         return_tensors="pt",
