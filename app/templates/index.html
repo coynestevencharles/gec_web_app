@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Grammatical Error Correction Web App</title>
-</head>
+    <head>
+        <title>Grammatical Error Correction Web App</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
     <h1>Grammatical Error Correction App</h1>
     <p>Enter the text you want to correct below:</p>
     <form method="post">
-        <textarea name="text" rows="4" cols="50"></textarea>
+        <textarea name="text" rows="4" cols="50">{{ input_text }}</textarea>
         <br>
         <button type="submit">Correct Text</button>
     </form>
