@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grammatical Error Correction Web App</title>
+</head>
+<body>
+    <h1>Grammatical Error Correction App</h1>
+    <p>Enter the text you want to correct below:</p>
+    <form method="post">
+        <textarea name="text" rows="4" cols="50"></textarea>
+        <br>
+        <button type="submit">Correct Text</button>
+    </form>
+    {% if corrected_text %}
+        <h2>Corrected Text:</h2>
+        <p>{{ corrected_text }}</p>
+    {% endif %}
+</body>
+</html>
