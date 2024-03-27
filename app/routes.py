@@ -1,5 +1,6 @@
 from flask import render_template, request, Blueprint, flash, redirect, url_for
-from app.models import correct_text, check_input_length
+from app.models import correct_text
+from app.utils import check_input_length
 
 bp = Blueprint("main", __name__)
 
