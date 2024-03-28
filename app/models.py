@@ -4,6 +4,7 @@ from app.config import Config
 tokenizer = AutoTokenizer.from_pretrained(Config.MODEL_PATH)
 model = AutoModelForSeq2SeqLM.from_pretrained(Config.MODEL_PATH)
 
+
 def correct_text(input_text: str) -> str:
     """
     Corrects the input text using the GEC model.

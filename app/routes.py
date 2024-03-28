@@ -1,6 +1,6 @@
-from flask import render_template, request, Blueprint, flash, redirect, url_for
-from app.models import correct_text
+from flask import render_template, request, Blueprint, jsonify
 from app.utils import check_input_length
+from app.tasks import async_correct_text
 
 bp = Blueprint("main", __name__)
 
@@ -8,25 +8,29 @@ bp = Blueprint("main", __name__)
 @bp.route("/", methods=["GET", "POST"])
 def home():
     input_text = ""
-    corrected_text = ""
     if request.method == "POST":
         input_text = request.form["text"]
-        # Handle blank input
         if not input_text:
-            flash("Please enter some text to correct.", "error")
-            return redirect(url_for("main.home"))
-        # Handle inputs that are too long
-        elif not check_input_length(input_text):
-            flash(
-                "Input text exceeds length limit. Please reduce the length and try again.",
-                "error",
-            )
-            return render_template(
-                "index.html", corrected_text=corrected_text, input_text=input_text
-            )
-        corrected_text = correct_text(input_text)
-    return render_template(
-        "index.html",
-        corrected_text=corrected_text,
-        input_text=request.form.get("text", ""),
-    )
+            return jsonify({"error": "Please enter some text to correct."}), 400
+        if not check_input_length(input_text):
+            return jsonify({"error": "Input text exceeds length limit."}), 400
+
+        task = async_correct_text.apply_async(args=[input_text])
+        return jsonify({"task_id": task.id}), 202
+
+    return render_template("index.html")
+
+
+@bp.route("/task/<task_id>", methods=["GET"])
+def get_task_result(task_id):
+    task = async_correct_text.AsyncResult(task_id)
+    if task.state == "PENDING":
+        response = {"state": task.state, "status": "Processing..."}
+    elif task.state == "SUCCESS":
+        if "error" in task.result:  # Task failed due to an exception
+            response = {"state": "FAILURE", "status": task.result["error"]}
+        else:
+            response = {"state": task.state, "result": task.result}
+    else:
+        response = {"state": "FAILURE", "status": "Error processing your request."}
+    return jsonify(response)

@@ -3,6 +3,7 @@ from transformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained(Config.MODEL_PATH)
 
+
 def check_input_length(input_text: str) -> bool:
     """
     Tokenizes the input text and checks if it exceeds the maximum token length.
