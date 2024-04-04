@@ -16,7 +16,7 @@ def correct_text(input_text: str) -> str:
         corrected_text (str): The corrected text.
     """
     tokenized_sentence = tokenizer.encode(
-        "gec: " + input_text,
+        Config.INPUT_PREFIX + input_text,
         max_length=Config.MAX_LENGTH,
         truncation=True,
         padding="max_length",
