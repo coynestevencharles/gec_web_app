@@ -9,12 +9,13 @@ Planning to implement the following:
 * An "error correction" tool that directly fixes input sentences.
 * An "error checker" tool that highlights errors for the user's consideration.
 
-Currently, a basic version of the corrector is available:
+Currently, a basic version of the corrector is available, using a sequence-to-sequence model fine-tuned from T5 following the paper "[A Simple Recipe for Multilingual Grammatical Error Correction](https://arxiv.org/abs/2106.03830)." See the [Hugging Face model card](https://huggingface.co/Buntan/gec-t5-v1_1-small) and [training code](https://github.com/coynestevencharles/gec_model_training) for more details.
 
 ![Screenshot of the error correction tool](assets/error_correction_ui_screenshot.png?raw=true)
 
 ## Setup
-```
+
+```bash
 # Install redis if necessary, e.g.,
 brew install redis
 
@@ -30,7 +31,7 @@ $ pip install -r requirements.txt
 
 ## Launching
 
-```
+```bash
 # Initialize redis
 $ redis-server
 
