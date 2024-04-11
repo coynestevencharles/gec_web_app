@@ -1,5 +1,13 @@
 from flask import Flask
 from celery import Celery, Task
+from celery.signals import after_setup_logger
+import logging.config
+from app.logging_config import LOGGING_CONFIG
+
+
+@after_setup_logger.connect
+def setup_loggers(logger, *args, **kwargs):
+    logging.config.dictConfig(LOGGING_CONFIG)
 
 
 def celery_init_app(app: Flask) -> Celery:
